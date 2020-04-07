@@ -22,9 +22,6 @@ import
 #     ---> (dst64, imm64) should be defined before (dst64, imm32)
 
 op_generator:
-  op NOP:
-    ## NOP do nothing
-    []:             [          0x90]
   op MOV: # MOV(dst, src) load/copy src into destination
     ## Copy 32-bit register content to another register
     [dst32, src32]: [          0x89, modrm(Direct, reg = src32, rm = dst32)]

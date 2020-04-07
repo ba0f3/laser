@@ -25,11 +25,15 @@ func pop*(a: var Assembler[X86], reg: static RegX86_32) {.inline.}=
   ## Pop the stack into a register
   a.code.add push(reg)
 
+func nop*(a: var Assembler[X86]) {.inline.} =
+  ## No operation.
+  a.code.add 0x90
+
 func syscall*(a: var Assembler[X86], clean_registers: static bool = false) {.inline.}=
   ## Syscall opcode
-  ## `rax` will determine which syscall is called.
-  ##   - Write syscall (0x01 on Linux, 0x02000004 on OSX):
-  ##       - os.write(rdi, rsi, rdx) equivalent to
+  ## `eax` will determine which syscall is called.
+  ##   - Write syscall (0x04 on Linux, 0x02000004 on OSX):
+  ##       - os.write(ebx, ecx, edx) equivalent to
   ##       - os.write(file_descriptor, str_pointer, str_length)
   ##       - The file descriptor for stdout is 0x01
   ## As syscall clobbers rcx and r11 registers
@@ -50,4 +54,4 @@ func ret*(a: var Assembler[X86]) {.inline.}=
   ## this will restore them to their previous state
   if a.clean_regs:
     a.code.add a.restore_regs
-  a.code.add byte 0xC3
+  a.code.add 0xC3

@@ -18,6 +18,8 @@ proc main() =
       # os.write(ebx, exc, edx) // os.write(file_descriptor, str_pointer, str_length)
       a.mov eax, 0x04
       a.mov ebx, 0x01
+      a.nop
+      a.nop
       a.mov ecx, HelloWorld[0].unsafeAddr
       a.mov edx, HelloWorld.len.int32 # [1]
 
